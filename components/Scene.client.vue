@@ -17,16 +17,14 @@
   <TresCanvas v-bind="gl" window-size v-show="hasFinishLoading">
     <TresPerspectiveCamera :position="[0, 0, 16]" ref="camRef" fov="75" />
     <TresAmbientLight :intensity="0.1" />
-    <TresDirectionalLight
-      cast-shadow
-      :position="[0, 20, 20]"
-      :intensity="0.9"
-    />
+    <TresDirectionalLight :position="[0, 20, 20]" :intensity="0.9" />
     <MouseParallax :factor="1" :ease="[3, 3]" />
+
+    <Cursor />
 
     <TresMesh receive-shadow :position="[0, 0, 0]">
       <TresPlaneGeometry :args="[100, 100]" />
-      <MeshReflectionMaterial :roughness="0" color="#212529" />
+      <TresMeshStandardMaterial color="#000814" />
     </TresMesh>
 
     <TresGroup :position="[-6, 2, 10]">

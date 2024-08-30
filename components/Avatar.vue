@@ -97,7 +97,7 @@ function onAvatarClick() {
 </script>
 
 <template>
-  <TresGroup ref="avatarRef">
+  <TresGroup ref="avatarRef" cast-shadow>
     <primitive
       cast-shadow
       :object="mazzar"
