@@ -6,19 +6,25 @@
   >
     <div
       v-show="!hasFinishLoading"
-      class="absolute bg-[#252A2E] t-0 l-0 w-full h-full z-20 flex justify-center items-center text-white font-mono"
+      class="absolute bg-[#252A2E] w-full h-full z-20 flex flex-col justify-center items-center text-white font-mono"
     >
-      <div class="w-200px">
-        Loading... {{ progress }} %
-        <i class="i-ic-twotone-catching-pokemon animate-rotate-in"></i>
+      <div class="mb-4">Loading...</div>
+      <div class="w-full h-6 bg-[#252A2E] absolute bottom-0 overflow-hidden">
+        <div
+          class="h-full transition-all duration-300 ease-out bg-white"
+          :style="{ width: `${progress}%` }"
+        ></div>
       </div>
     </div>
   </Transition>
   <TresCanvas v-bind="gl" window-size v-show="hasFinishLoading">
     <TresPerspectiveCamera :position="[0, 0, 16]" ref="camRef" fov="75" />
-    <TresAmbientLight :intensity="0.1" />
-    <TresDirectionalLight :position="[0, 20, 20]" :intensity="0.9" />
-    <MouseParallax :factor="1" :ease="[3, 3]" />
+
+    <Levioso :speed="5" :rotation-factor="0.1" :float-factor="2.5">
+      <MouseParallax :factor="1" :ease="[3, 3]" />
+    </Levioso>
+
+    <TresDirectionalLight :position="[0, 20, 20]" :intensity="0.1" />
 
     <Cursor />
 
@@ -165,6 +171,7 @@ import { useProgress } from "@tresjs/cientos";
 const { hasFinishLoading, progress, items } = await useProgress();
 
 const camRef = ref(null);
+
 const speedLevio = 2;
 const rotationLevio = 2;
 const floatLevio = 2;

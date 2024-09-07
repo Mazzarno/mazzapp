@@ -99,11 +99,11 @@ function onAvatarClick() {
 <template>
   <TresGroup ref="avatarRef" cast-shadow>
     <primitive
-      cast-shadow
       :object="mazzar"
       :scale="3"
       :rotation-y="2.5"
       @click="testClick"
+      cast-shadow
     />
   </TresGroup>
   <TresGroup ref="officeRef">

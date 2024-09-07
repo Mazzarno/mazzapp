@@ -3,56 +3,76 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
 
-// Assurez-vous d'enregistrer le plugin Observer
 gsap.registerPlugin(Observer);
 
-const cursorRef = ref(null);
+const leftSpotRef = ref(null);
+const centerSpotRef = ref(null);
+const rightSpotRef = ref(null);
 
-function updatePosition(x: number, y: number) {
+function updatePositions(x: number, y: number) {
   const posX = (x / window.innerWidth) * 10 - 5;
   const posY = -(y / window.innerHeight) * 10 + 5;
 
-  if (cursorRef.value) {
-    gsap.to(cursorRef.value.position, {
-      x: posX,
-      y: posY,
-      z: 20, // Ajustez la profondeur ici si nécessaire
-      duration: 0.2,
-      ease: "power2.out",
-    });
-  }
+  const spots = [leftSpotRef, centerSpotRef, rightSpotRef];
+  const offsets = [-2, 0, 2]; // Décalage horizontal pour chaque spot
+
+  spots.forEach((spotRef, index) => {
+    if (spotRef.value) {
+      gsap.to(spotRef.value.position, {
+        x: posX + offsets[index],
+        y: posY,
+        z: 20,
+        duration: 0.1,
+        ease: "power1.out",
+      });
+    }
+  });
 }
 
 onMounted(() => {
-  // Utilisation de GSAP Observer pour gérer la souris et le toucher
   Observer.create({
-    target: window, // Nous écoutons les mouvements sur toute la fenêtre
-    type: "pointer,touch", // Supporte à la fois les événements de souris et de toucher
+    target: window,
+    type: "pointer,touch",
     onMove: (self) => {
-      updatePosition(self.x, self.y);
+      updatePositions(self.x, self.y);
     },
-    // Si vous souhaitez gérer les événements de clic ou de tap, vous pouvez ajouter ces options :
-    onDown: (self) => console.log("Clicked or tapped!"),
-    onUp: (self) => console.log("Released!"),
   });
 });
 
 onUnmounted(() => {
-  // Optionnel : si vous avez besoin de nettoyer l'Observer
   Observer.getAll().forEach((observer) => observer.kill());
 });
 </script>
 
 <template>
-  <!-- SpotLight pour l'éclairage physique qui suit la souris -->
+  <TresAmbientLight :intensity="0.3" />
   <TresSpotLight
-    ref="cursorRef"
+    ref="leftSpotRef"
     :intensity="100"
-    :angle="1"
-    :penumbra="1"
+    :angle="0.4"
+    :penumbra="0.5"
     castShadow
   >
-    <!-- Lensflare pour l'effet visuel -->
+    <Lensflare :size="0.7" />
+  </TresSpotLight>
+
+  <TresSpotLight
+    ref="centerSpotRef"
+    :intensity="100"
+    :angle="0.5"
+    :penumbra="0.6"
+    castShadow
+  >
     <Lensflare :size="1" />
+  </TresSpotLight>
+
+  <TresSpotLight
+    ref="rightSpotRef"
+    :intensity="100"
+    :angle="0.4"
+    :penumbra="0.5"
+    castShadow
+  >
+    <Lensflare :size="0.7" />
   </TresSpotLight>
 </template>
