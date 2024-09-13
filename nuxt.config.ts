@@ -16,7 +16,9 @@ export default defineNuxtConfig({
       ] 
     },
   },
-    nitro: { preset: "netlify-edge" },
+
+  nitro: { preset: "netlify-edge" },
+
   css: [
     '@/assets/css/styles.css',
   ],
@@ -49,5 +51,7 @@ export default defineNuxtConfig({
   tres: {
     devtools: true,
     glsl: true
-  }
+  },
+
+  compatibilityDate: '2024-09-07',
 })

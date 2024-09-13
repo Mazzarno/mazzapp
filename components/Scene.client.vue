@@ -11,7 +11,7 @@
       <div class="mb-4">Loading...</div>
       <div class="w-full h-6 bg-[#252A2E] absolute bottom-0 overflow-hidden">
         <div
-          class="h-full transition-all duration-300 ease-out bg-white"
+          class="h-full transition-all duration-1000 ease-out bg-white"
           :style="{ width: `${progress}%` }"
         ></div>
       </div>
@@ -20,161 +20,33 @@
   <TresCanvas v-bind="gl" window-size v-show="hasFinishLoading">
     <TresPerspectiveCamera :position="[0, 0, 16]" ref="camRef" fov="75" />
 
+    <OrbitControls />
+
     <Levioso :speed="5" :rotation-factor="0.1" :float-factor="2.5">
       <MouseParallax :factor="1" :ease="[3, 3]" />
     </Levioso>
 
-    <TresDirectionalLight :position="[0, 20, 20]" :intensity="0.1" />
+    <Lumos />
 
-    <Cursor />
+    <Text />
 
-    <TresMesh receive-shadow :position="[0, 0, 0]">
+    <TresMesh receiveShadow :position="[0, 0, 0]">
       <TresPlaneGeometry :args="[100, 100]" />
-      <TresMeshStandardMaterial color="#000814" />
+      <TresMeshStandardMaterial color="#e9ecef" />
     </TresMesh>
-
-    <TresGroup :position="[-6, 2, 10]">
-      <Levioso
-        :speed="speedLevio"
-        :rotation-factor="rotationLevio"
-        :float-factor="floatLevio"
-      >
-        <Suspense>
-          <Text3D
-            text="!"
-            font="fonts/Mitr.json"
-            size="2"
-            curveSegments="10"
-            rotation-y="-0.5"
-          >
-            <TresMeshStandardMaterial color="#212529" />
-          </Text3D>
-        </Suspense>
-      </Levioso>
-    </TresGroup>
-
-    <TresGroup :position="[0, 5, 4]">
-      <Suspense>
-        <Text3D
-          text="WORK IN PROGRESS"
-          font="fonts/Mitr.json"
-          size="1.5"
-          curveSegments="10"
-          center
-        >
-          <TresMeshStandardMaterial color="#212529" />
-        </Text3D>
-      </Suspense>
-    </TresGroup>
-
-    <TresGroup :position="[-4, -1, 10]">
-      <Levioso
-        :speed="speedLevio"
-        :rotation-factor="rotationLevio"
-        :float-factor="floatLevio"
-      >
-        <Suspense>
-          <Text3D
-            text="<"
-            font="fonts/Mitr.json"
-            size="2"
-            curve-segments="10"
-            rotation-y="-0.5"
-          >
-            <TresMeshStandardMaterial color="#212529" />
-          </Text3D>
-        </Suspense>
-      </Levioso>
-    </TresGroup>
-    <TresGroup :position="[4, -1, 10]">
-      <Levioso
-        :speed="speedLevio"
-        :rotation-factor="rotationLevio"
-        :float-factor="floatLevio"
-      >
-        <Suspense>
-          <Text3D
-            text="/"
-            font="fonts/Mitr.json"
-            size="2"
-            curve-segments="10"
-            rotation-y="0.5"
-            position-x="-1.5"
-          >
-            <TresMeshStandardMaterial color="#212529" />
-          </Text3D>
-        </Suspense>
-      </Levioso>
-      <Levioso
-        :speed="speedLevio"
-        :rotation-factor="rotationLevio"
-        :float-factor="floatLevio"
-      >
-        <Suspense>
-          <Text3D
-            text=">"
-            font="fonts/Mitr.json"
-            size="2"
-            curveSegments="10"
-            rotation-y="0.5"
-          >
-            <TresMeshStandardMaterial color="#212529" />
-          </Text3D>
-        </Suspense>
-      </Levioso>
-    </TresGroup>
-    <TresGroup :position="[6, 1, 10]">
-      <Levioso
-        :speed="speedLevio"
-        :rotation-factor="rotationLevio"
-        :float-factor="floatLevio"
-      >
-        <Suspense>
-          <Text3D
-            text="?"
-            font="fonts/Mitr.json"
-            size="2"
-            curveSegments="10"
-            rotation-y="0.5"
-          >
-            <TresMeshStandardMaterial color="#212529" />
-          </Text3D>
-        </Suspense>
-      </Levioso>
-    </TresGroup>
-
-    <TresGroup :position="[0, -3, 5]">
-      <Suspense>
-        <Avatar />
-      </Suspense>
-    </TresGroup>
   </TresCanvas>
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  onMounted,
-  nextTick,
-  onUnmounted,
-  watch,
-  shallowRef,
-} from "vue";
-
+import { reactive, ref } from "vue";
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from "three";
-const { $gsap, $Observer } = useNuxtApp();
-const { onLoop } = useRenderLoop();
-import { OrbitControls, Sphere } from "@tresjs/cientos";
+import { OrbitControls } from "@tresjs/cientos";
 import { useProgress } from "@tresjs/cientos";
 
-const { hasFinishLoading, progress, items } = await useProgress();
+const { hasFinishLoading, progress } = await useProgress();
 
 const camRef = ref(null);
 
-const speedLevio = 2;
-const rotationLevio = 2;
-const floatLevio = 2;
 const gl = reactive({
   clearColor: "#212529",
   powerPreference: "high-performance",
