@@ -4,7 +4,7 @@ import { useRenderLoop, useTresContext } from "@tresjs/core";
 import { vLightHelper } from "@tresjs/core";
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
-// Assurez-vous d'enregistrer le plugin Observer
+
 gsap.registerPlugin(Observer);
 const cursorRef = ref(null);
 const { onLoop } = useRenderLoop();
@@ -24,10 +24,9 @@ function updatePosition(x: number, y: number) {
   }
 }
 onMounted(() => {
-  // Utilisation de GSAP Observer pour gérer la souris et le toucher
   Observer.create({
-    target: window, // Nous écoutons les mouvements sur toute la fenêtre
-    type: "pointer,touch", // Supporte à la fois les événements de souris et de toucher
+    target: window,
+    type: "pointer,touch",
     onMove: (self) => {
       updatePosition(self.x, self.y);
     },
@@ -51,7 +50,7 @@ onUnmounted(() => {
     :intensity="10"
     scale="10"
     castShadow
-    :position="[0, 0, 10]"
+    :position="[0, 0, 3.5]"
     :shadow-mapSize="[20048, 20048]"
     :shadow-camera-left="-2000"
     :shadow-camera-right="2000"
