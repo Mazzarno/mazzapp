@@ -43,5 +43,4 @@ const textHeight = 0.2;
 const textCurveSegments = 10;
 const textBevelThickness = 0.5;
 const textBevelSize = 0.02;
-defineExpose({ textRef });
 </script>

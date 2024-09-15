@@ -202,7 +202,7 @@ onMounted(() => {
           opacity: 1,
           z: 0,
           duration: 1.5,
-          ease: "power2.out",
+          ease: "power2",
           yoyo: true,
         },
         index * 0.1

@@ -47,7 +47,7 @@ onUnmounted(() => {
   <TresPointLight
     ref="cursorRef"
     color="#faedcd"
-    :intensity="10"
+    :intensity="15"
     scale="10"
     castShadow
     :position="[0, 0, 3.5]"
